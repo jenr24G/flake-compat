@@ -92,7 +92,7 @@ let
     tryFetchGit = src:
       if isGit && !isShallow
       then
-        let res = builtins.fetchGit { inherit src submodules; };
+        let res = builtins.fetchGit {inherit submodules; url = src; };
         in if res.rev == "0000000000000000000000000000000000000000" then removeAttrs res ["rev" "shortRev"]  else res
       else { outPath = src; };
     # NB git worktrees have a file for .git, so we don't check the type of .git
