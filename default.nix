@@ -190,7 +190,7 @@ in
   rec {
     defaultNix =
       (builtins.removeAttrs result ["__functor"])
-      // (if result ? packages.${system}.${package} then { default = result.packages.${system}.${package}; } else {})
+      // (if result ? packages.${system}.${package} then { default = result.packages.${system}.${package}; } else {});
 
     shellNix =
       defaultNix
