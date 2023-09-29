@@ -5,7 +5,7 @@
 # containing 'defaultNix' (to be used in 'default.nix'), 'shellNix'
 # (to be used in 'shell.nix').
 
-{ src, system ? builtins.currentSystem or "unknown-system", package ? "default", devShell ? "default" }:
+{ src, system ? builtins.currentSystem or "unknown-system", package ? "default", devShell ? "default", submodules ? true }:
 
 let
   lockFilePath = src + "/flake.lock";
@@ -92,7 +92,7 @@ let
     tryFetchGit = src:
       if isGit && !isShallow
       then
-        let res = builtins.fetchGit src;
+        let res = builtins.fetchGit { inherit src submodules; };
         in if res.rev == "0000000000000000000000000000000000000000" then removeAttrs res ["rev" "shortRev"]  else res
       else { outPath = src; };
     # NB git worktrees have a file for .git, so we don't check the type of .git
